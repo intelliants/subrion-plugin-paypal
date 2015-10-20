@@ -1,0 +1,20 @@
+<p>Allows site administrators to accept payments using PayPal payment system.</p>
+
+<h1>IPN</h1>
+<p>In order to use the IPN feature of PayPal API, you should have the "Business" account on PayPal and set appropriate options on paypal.com.</p>
+
+<ol>
+	<li>Login to paypal.com</li>
+	<li>Choose <em>"My Account"</em> tab</li>
+	<li>Choose <em>"Profile"</em> menu item</li>
+	<li>Once the new page opened, choose <em>"My selling tools"</em> link on the left menu</li>
+	<li>There would be a grouped list, click <em>"Update"</em> link next to the <em>"Instant payment notifications"</em> parameter</li>
+	<li>At the newly opened page, click the <em>"Choose IPN Settings"</em> button</li>
+	<li>There would be a tiny form with options. Fill them as follows:
+		<p><strong>Notification URL</strong>: http://{YOUR_SUBRION_SITE_URL}/ipn/paypal/<br><small>(say, http://example.com/ipn/paypal/ for EXAMPLE.COM domain, respectively)</small></p>
+		<p><strong>IPN Messages</strong>: <em>"Receive IPN messages (Enabled)"</em> option</p>
+	</li>
+	<li>Click <em>"Save"</em> button</li>
+</ol>
+
+<p>NOTE: Some of these items may be missing if the type of your PayPal account differs from "Business".</p>
