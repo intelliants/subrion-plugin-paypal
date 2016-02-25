@@ -304,7 +304,7 @@ class iaPaypal extends abstractCore
 			//$params['buyerusername'] = $userInfo['fullname'];
 		}
 
-		if ($planInfo['recurring'])
+		if (isset($planInfo['recurring']) && $planInfo['recurring'])
 		{
 			$params['l_billingtype0'] = self::PAYMENT_OPTION_RECURRING;
 			$params['l_billingagreementdescription0'] = $description;
