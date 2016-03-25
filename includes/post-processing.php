@@ -69,7 +69,7 @@ else
 
 		$transaction = $temp_transaction;
 
-		$transaction['date'] = date(iaDb::DATETIME_FORMAT, strtotime($response->timestamp));
+		$transaction['date_updated'] = date(iaDb::DATETIME_FORMAT, strtotime($response->timestamp));
 		$transaction['reference_id'] = $response->paymentrequest_0_transactionid;
 		$transaction['amount'] = $response->paymentrequest_0_amt;
 		$transaction['currency'] = $response->paymentrequest_0_currencycode;
@@ -81,6 +81,7 @@ else
 		{
 			case 'PaymentActionCompleted':
 				$transaction['status'] = iaTransaction::PASSED;
+				$transaction['date_paid'] = date(iaDb::DATETIME_FORMAT, strtotime($response->timestamp));
 				break;
 			case 'PaymentActionFailed':
 			case 'PaymentActionNotInitiated':
@@ -94,7 +95,7 @@ else
 		$order['payment_status'] = iaLanguage::get($transaction['status'], ucfirst($transaction['status']));
 		$order['payer_email'] = $transaction['email'];
 		$order['payment_gross'] = $transaction['amount'];
-		$order['payment_date'] = $transaction['date'];
+		$order['payment_date'] = $transaction['date_paid'];
 		$order['mc_currency'] = $transaction['currency'];
 		$order['first_name'] = $response->firstname;
 		$order['last_name'] = $response->lastname;
