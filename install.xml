@@ -7,7 +7,7 @@
 	<version>4.0.0</version>
 	<date>2015-12-21</date>
 	<category>payments</category>
-	<compatibility>4.0</compatibility>
+	<compatibility>4.0.6</compatibility>
 
 	<config group="financial" name="paypal" type="divider">PayPal</config>
 	<config group="financial" name="paypal_currency_code" type="text" description="PayPal currency code">USD</config>
