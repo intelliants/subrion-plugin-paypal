@@ -4,10 +4,10 @@
 	<summary>PayPal payment gateway integration. Allows to accept payments using PayPal</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>4.0.0</version>
-	<date>2015-12-21</date>
+	<version>4.1.0</version>
+	<date>2016-10-18</date>
 	<category>payments</category>
-	<compatibility>4.0.6</compatibility>
+	<compatibility>4.1.0</compatibility>
 
 	<config group="financial" name="paypal" type="divider">PayPal</config>
 	<config group="financial" name="paypal_currency_code" type="text" description="PayPal currency code">USD</config>

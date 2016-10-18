@@ -285,14 +285,17 @@ class iaPaypal extends abstractCore
 	{
 		$params = array(
 			'brandname' => $this->iaCore->get('site'),
-			'localecode' => $this->iaCore->iaView->language,
+			//'localecode' => $this->iaCore->iaView->language,
 			'returnurl' => $returnURL,
 			'cancelurl' => $cancelURL,
 			'allownote' => 1,
 			'paymentrequest_0_amt' => (float)$planInfo['cost'],
 			'paymentrequest_0_paymentaction' => self::PAYMENT_TYPE_SALE,
 			'paymentrequest_0_currencycode' => $this->_currencyCode,
-			'paymentrequest_0_desc' => $description
+			'paymentrequest_0_desc' => $description,
+			'solutiontype' => 'Sole',
+			'landingpage' => 'Billing',
+			'localecode' => 'us'
 		);
 
 		if (iaUsers::hasIdentity())
@@ -347,8 +350,8 @@ class iaPaypal extends abstractCore
 
 		if (iaUsers::hasIdentity())
 		{
+			$params['subscribername'] = iaUsers::getIdentity()->fullname;
 			$params['email'] = iaUsers::getIdentity()->email;
-			$params['firstname'] = iaUsers::getIdentity()->fullname;
 		}
 
 		return $this->_apiCall(self::METHOD_CREATE_RECURRING_PAYMENTS_PROFILE, $params);
@@ -436,7 +439,7 @@ class iaPaypal extends abstractCore
 				'currency' => $ipnData['mc_currency'],
 				'gateway' => $this->getPluginName(),
 				'notes' => '<Automatically processed IPN transaction>',
-				'demo' => !isset($ipnData['test_ipn']) || (1 == $ipnData['test_ipn'])
+				'demo' => isset($ipnData['test_ipn']) && 1 == $ipnData['test_ipn']
 			);
 
 			if (!empty($ipnData['recurring_payment_id']) || !empty($ipnData['subscr_id']))
@@ -450,6 +453,9 @@ class iaPaypal extends abstractCore
 					$transaction['subscription_id'] = $subscription['id'];
 					$transaction['plan_id'] = $subscription['plan_id'];
 					$transaction['member_id'] = $subscription['member_id'];
+
+					empty($subscription['item']) || $transaction['item'] = $subscription['item'];
+					empty($subscription['item_id']) || $transaction['item_id'] = $subscription['item_id'];
 				}
 			}
 
