@@ -49,6 +49,10 @@ class iaPaypal extends abstractCore
 	const METHOD_DO_EC = 'DoExpressCheckoutPayment';
 	const METHOD_GET_EC_DETAILS = 'GetExpressCheckoutDetails';
 	const METHOD_CREATE_RECURRING_PAYMENTS_PROFILE = 'CreateRecurringPaymentsProfile';
+	const METHOD_REFUND_TRANSACTION = 'RefundTransaction';
+
+	const REFUND_TYPE_FULL = 'Full';
+	const REFUND_TYPE_PARTIAL = 'Partial';
 
 	// not used
 	const IPN_TXN_TYPE_SUBSCR_CANCEL = 'subscr_cancel'; // Subscription canceled
@@ -334,6 +338,14 @@ class iaPaypal extends abstractCore
 		return $this->_apiCall(self::METHOD_GET_EC_DETAILS, array('token' => $token));
 	}
 
+	public function refundTransaction($txnId)
+	{
+		return $this->_apiCall(self::METHOD_REFUND_TRANSACTION, array(
+			'transactionid' => $txnId,
+			'refundtype' => self::REFUND_TYPE_FULL
+		));
+	}
+
 	public function createRecurringPaymentsProfile(array $planInfo, $description, $token, $payer)
 	{
 		$params = array(
@@ -502,5 +514,20 @@ class iaPaypal extends abstractCore
 		$iaMailer->setReplacements($transaction);
 
 		return $iaMailer->sendToAdministrators();
+	}
+
+	public function refund(array $transaction)
+	{
+		if (empty($transaction['reference_id']))
+		{
+			return false;
+		}
+
+		if (!$this->refundTransaction($transaction['reference_id']))
+		{
+			return false;
+		}
+
+		return $this->getResponse(true);
 	}
 }

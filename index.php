@@ -47,6 +47,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	$iaTransaction->addIpnLogEntry($iaPaypal->getPluginName(), $_POST, 'Valid');
 
 	$iaView->disableLayout();
+	$iaView->display(iaView::NONE);
 
 	$iaPaypal->handleIpn($_POST);
 }
