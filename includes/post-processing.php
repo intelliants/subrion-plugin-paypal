@@ -35,7 +35,7 @@ $iaSubscription = $iaCore->factory('subscription');
 
 $token = $_GET['token'];
 $payer = $_GET['PayerID'];
-$plan = $iaPlan->getById($temp_transaction['plan_id'], $temp_transaction['item'], $temp_transaction['item_id']);
+$plan = $iaPlan->getById($temp_transaction['plan_id']);
 
 if ($plan['recurring'])
 {
