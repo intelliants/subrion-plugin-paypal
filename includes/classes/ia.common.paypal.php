@@ -2,7 +2,7 @@
 /******************************************************************************
  *
  * Subrion - open source content management system
- * Copyright (C) 2015 Intelliants, LLC <http://www.intelliants.com>
+ * Copyright (C) 2017 Intelliants, LLC <https://intelliants.com>
  *
  * This file is part of Subrion.
  *
@@ -20,7 +20,7 @@
  * along with Subrion. If not, see <http://www.gnu.org/licenses/>.
  *
  *
- * @link http://www.subrion.org/
+ * @link https://subrion.org/
  *
  ******************************************************************************/
 
@@ -95,7 +95,7 @@ class iaPaypal extends abstractCore
 			$this->_signature = $this->iaCore->get('paypal_api_signature');
 		}
 
-		$this->_certPath = IA_PLUGINS . $this->getPluginName() . IA_URL_DELIMITER . 'includes/cert/g5-root.cer';
+		$this->_certPath = IA_MODULES . $this->getPluginName() . IA_URL_DELIMITER . 'includes/cert/g5-root.cer';
 		$this->_currencyCode = $this->iaCore->get('paypal_currency_code');
 	}
 

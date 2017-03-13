@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin name="paypal">
+<module type="plugin" name="paypal">
 	<title>PayPal</title>
 	<summary>PayPal payment gateway integration. Allows to accept payments using PayPal</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
 	<version>4.1.0</version>
-	<date>2016-10-18</date>
+	<date>2017-03-13</date>
 	<category>payments</category>
 	<compatibility>4.1.0</compatibility>
 
@@ -69,4 +69,4 @@
 		<tooltip key="paypal_api_password">PayPal API password</tooltip>
 		<tooltip key="paypal_api_signature">PayPal API Signature (like 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU')</tooltip>
 	</tooltips>
-</plugin>
+</module>
