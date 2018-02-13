@@ -22,7 +22,7 @@
         <email name="paypal_ipn_admin"
                description="IPN payment processing notification"
                variables="reference_id|Transaction ID,email|Email of payer,amount|Amount,fullname|Payer,status|Transaction status,currency|Currency"
-               subject="PayPal payment processed at {%SITE_NAME%}">
+               subject="PayPal payment processed at {$siteName}">
             <![CDATA[
 <p>Greetings,</p>
 <p><strong>New PayPal payment notification processed.</strong></p>
