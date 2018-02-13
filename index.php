@@ -24,30 +24,27 @@
  *
  ******************************************************************************/
 
-if (iaView::REQUEST_HTML == $iaView->getRequestType())
-{
-	iaBreadcrumb::remove(iaBreadcrumb::POSITION_LAST);
-	$iaView->set('nocsrf', true);
+if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
+    iaBreadcrumb::remove(iaBreadcrumb::POSITION_LAST);
+    $iaView->set('nocsrf', true);
 
-	if (empty($_POST))
-	{
-		return iaView::errorPage(iaView::ERROR_NOT_FOUND);
-	}
+    if (empty($_POST)) {
+        return iaView::errorPage(iaView::ERROR_NOT_FOUND);
+    }
 
-	$iaTransaction = $iaCore->factory('transaction');
-	$iaPaypal = $iaCore->factoryPlugin('paypal', 'common');
+    $iaTransaction = $iaCore->factory('transaction');
+    $iaPaypal = $iaCore->factoryModule('paypal', IA_CURRENT_MODULE, 'common');
 
-	if (!$iaPaypal->checkIpnMessage())
-	{
-		$iaTransaction->addIpnLogEntry($iaPaypal->getPluginName(), $_POST, 'Invalid');
+    if (!$iaPaypal->checkIpnMessage()) {
+        $iaTransaction->addIpnLogEntry($iaPaypal->getModuleName(), $_POST, 'Invalid');
 
-		return iaView::errorPage(iaView::ERROR_NOT_FOUND);
-	}
+        return iaView::errorPage(iaView::ERROR_NOT_FOUND);
+    }
 
-	$iaTransaction->addIpnLogEntry($iaPaypal->getPluginName(), $_POST, 'Valid');
+    $iaTransaction->addIpnLogEntry($iaPaypal->getModuleName(), $_POST, 'Valid');
 
-	$iaView->disableLayout();
-	$iaView->display(iaView::NONE);
+    $iaView->disableLayout();
+    $iaView->display(iaView::NONE);
 
-	$iaPaypal->handleIpn($_POST);
+    $iaPaypal->handleIpn($_POST);
 }

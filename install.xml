@@ -1,72 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module type="plugin" name="paypal">
-	<title>PayPal</title>
-	<summary>PayPal payment gateway integration. Allows to accept payments using PayPal</summary>
-	<author>Intelliants LLC</author>
-	<contributor>Intelliants LLC</contributor>
-	<version>4.1.0</version>
-	<date>2017-03-13</date>
-	<category>payments</category>
-	<compatibility>4.1.0</compatibility>
+    <title>PayPal</title>
+    <summary>PayPal payment gateway integration. Allows to accept payments using PayPal</summary>
+    <author>Intelliants LLC</author>
+    <contributor>Intelliants LLC</contributor>
+    <version>4.1.0</version>
+    <date>2017-03-13</date>
+    <category>payments</category>
+    <compatibility>4.2.0</compatibility>
 
-	<config group="financial" name="paypal" type="divider">PayPal</config>
-	<config group="financial" name="paypal_currency_code" type="text" description="PayPal currency code">USD</config>
-	<config group="financial" name="paypal_email" type="text" description="PayPal email">your email here</config>
-	<config group="financial" name="paypal_demo_mode" type="radio" description="Demo mode" values="0,1">1</config>
-	<config group="financial" name="paypal_api_user" type="text" description="API username" show="paypal_demo_mode|0"><![CDATA[]]></config>
-	<config group="financial" name="paypal_api_password" type="text" description="API password" show="paypal_demo_mode|0"><![CDATA[]]></config>
-	<config group="financial" name="paypal_api_signature" type="text" description="API signature" show="paypal_demo_mode|0"><![CDATA[]]></config>
-	<config group="email_templates" type="divider" description="PayPal"><![CDATA[]]></config>
-	<config group="email_templates" type="radio" name="paypal_ipn_admin" values="1,0" description="IPN payment processing notification">1</config>
-	<config group="email_templates" type="hidden" name="paypal_ipn_admin_subject">PayPal payment processed at {%SITE_NAME%}</config>
-	<config group="email_templates" type="hidden" name="paypal_ipn_admin_body" values="reference_id|Transaction ID,email|Email of payer,amount|Amount,fullname|Payer,status|Transaction status,currency|Currency">
-		<![CDATA[
+    <config group="financial" name="paypal" type="divider">PayPal</config>
+    <config group="financial" name="paypal_currency_code" type="text" description="PayPal currency code">USD</config>
+    <config group="financial" name="paypal_email" type="text" description="PayPal email">your email here</config>
+    <config group="financial" name="paypal_demo_mode" type="radio" description="Demo mode" values="0,1">1</config>
+    <config group="financial" name="paypal_api_user" type="text" description="API username" show="paypal_demo_mode|0"><![CDATA[]]></config>
+    <config group="financial" name="paypal_api_password" type="text" description="API password" show="paypal_demo_mode|0"><![CDATA[]]></config>
+    <config group="financial" name="paypal_api_signature" type="text" description="API signature" show="paypal_demo_mode|0"><![CDATA[]]></config>
+
+    <emails>
+        <email description="PayPal" divider="1"><![CDATA[]]></email>
+        <email name="paypal_ipn_admin"
+               description="IPN payment processing notification"
+               variables="reference_id|Transaction ID,email|Email of payer,amount|Amount,fullname|Payer,status|Transaction status,currency|Currency"
+               subject="PayPal payment processed at {%SITE_NAME%}">
+            <![CDATA[
 <p>Greetings,</p>
 <p><strong>New PayPal payment notification processed.</strong></p>
 <p>Below is the details:</p>
+
 <table>
 <tr>
-	<td>Transaction ID:</td>
-	<td>{%REFERENCE_ID%}</td>
+    <td>Transaction ID:</td>
+    <td>{$reference_id}</td>
 </tr>
 <tr>
-	<td>Payer:</td>
-	<td>{%FULLNAME%}</td>
+    <td>Payer:</td>
+    <td>{$fullname}</td>
 </tr>
 <tr>
-	<td>Email:</td>
-	<td>{%EMAIL%}</td>
+    <td>Email:</td>
+    <td>{$email}</td>
 </tr>
 <tr>
-	<td>Amount:</td>
-	<td>{%AMOUNT%} {%CURRENCY%}</td>
+    <td>Amount:</td>
+    <td>{$amount} {$currency}</td>
 </tr>
 <tr>
-	<td>Transaction status:</td>
-	<td>{%STATUS%}</td>
-</tr>
+    <td>Transaction status:</td>
+    <td>{$status}</td>
+    </tr>
 </table>
-		]]>
-	</config>
+            ]]>
+        </email>
+    </emails>
 
-	<hooks>
-		<hook name="paymentButtons" type="smarty" filename="button" page_type="front"><![CDATA[]]></hook>
-	</hooks>
+    <hooks>
+        <hook name="paymentButtons" type="smarty" filename="button.tpl" page_type="front"><![CDATA[]]></hook>
+    </hooks>
 
-	<pages>
-		<page url="ipn/paypal/" name="ipn_paypal" service="1">Paypal IPN service page</page>
-	</pages>
+    <pages>
+        <page url="ipn/paypal/" name="ipn_paypal" service="1">Paypal IPN service page</page>
+    </pages>
 
-	<phrases>
-		<phrase category="common" key="could_not_create_recurring_profile">Could not create recurring payment profile.</phrase>
-		<phrase category="common" key="could_not_get_checkout_details">Could not get checkout details.</phrase>
-		<phrase category="common" key="payment_completed">Payment completed.</phrase>
-		<phrase category="common" key="recurring_payment_profile_added">Recurring payment profile created and activated.</phrase>
-	</phrases>
+    <phrases>
+        <phrase category="common" key="could_not_create_recurring_profile">Could not create recurring payment profile.</phrase>
+        <phrase category="common" key="could_not_get_checkout_details">Could not get checkout details.</phrase>
+        <phrase category="common" key="payment_completed">Payment completed.</phrase>
+        <phrase category="common" key="recurring_payment_profile_added">Recurring payment profile created and activated.</phrase>
+    </phrases>
 
-	<tooltips>
-		<tooltip key="paypal_api_user">PayPal API Username (like 'youremail-facilitator_api1.example.com')</tooltip>
-		<tooltip key="paypal_api_password">PayPal API password</tooltip>
-		<tooltip key="paypal_api_signature">PayPal API Signature (like 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU')</tooltip>
-	</tooltips>
+    <tooltips>
+        <tooltip key="paypal_api_user">PayPal API Username (like 'youremail-facilitator_api1.example.com')</tooltip>
+        <tooltip key="paypal_api_password">PayPal API password</tooltip>
+        <tooltip key="paypal_api_signature">PayPal API Signature (like 'A-IzJhZZjhg29XQ2qnhapuwxIDzyAZQ92FRP5dqBzVesOkzbdUONzmOU')</tooltip>
+    </tooltips>
 </module>
